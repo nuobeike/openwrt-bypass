@@ -394,6 +394,10 @@ o = s:option(Flag, "gRPC_MultiMode", "MultiMode")
 o.rmempty = False
 o:depends("transport", "grpc")
 
+o = s:option(Flag, "gRPC_PermitWithoutStream", "PermitWithoutStream")
+o.rmempty = False
+o:depends("transport", "grpc")
+
 -- [[ mKCP部分 ]]--
 
 o = s:option(ListValue, "kcp_guise", translate("Camouflage Type"))
