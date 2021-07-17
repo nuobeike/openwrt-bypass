@@ -109,8 +109,8 @@ outbound = {
 				type = server.quic_guise
 			}
 		} or nil,
-        grpcSettings = (server.transport == "grpc") and {
-            serviceName = server.grpc_serviceName,
+		grpcSettings = (server.transport == "grpc") and {
+			serviceName = server.grpc_serviceName,
 			MultiMode = (server.gRPC_MultiMode == "1") and true or nil,
 			idle_timeout = tonumber(server.idle_timeout),
 			health_check_timeout = tonumber(server.health_check_timeout),
