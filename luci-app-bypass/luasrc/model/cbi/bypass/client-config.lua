@@ -389,14 +389,26 @@ o:value("wireguard", "WireGuard")
 -- [[ gRPC部分 ]]--
 o = s:option(Value, "grpc_serviceName", "ServiceName")
 o:depends("transport", "grpc")
+o.rmempty = false
 
 o = s:option(Flag, "gRPC_MultiMode", "MultiMode")
-o.rmempty = False
+o.rmempty = true
 o:depends("transport", "grpc")
 
-o = s:option(Flag, "gRPC_PermitWithoutStream", "PermitWithoutStream")
-o.rmempty = False
+o=s:option(Value,"idle_timeout", translate("idle_timeout"))
+o.datatype="uinteger"
 o:depends("transport", "grpc")
+o.rmempty = true
+
+o=s:option(Value,"health_check_timeout", translate("health_check_timeout"))
+o.datatype="uinteger"
+o:depends("transport", "grpc")
+o.rmempty = true
+
+o = s:option(Flag, "gRPC_PermitWithoutStream", translate("PermitWithoutStream"))
+o.rmempty = true
+o:depends("transport", "grpc")
+
 
 -- [[ mKCP部分 ]]--
 
