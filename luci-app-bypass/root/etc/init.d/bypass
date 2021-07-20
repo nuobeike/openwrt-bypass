@@ -195,7 +195,7 @@ start_dns(){
 		log "ChinaDNS : Start ChinaDNS-NG successful!"
 	fi
 	if [[ "$(uci get dhcp.@dnsmasq[0].cachesize 2>/dev/null)" == "0" ]]; then
-		uci set dhcp.@dnsmasq[0].cachesize='1500'
+		uci set dhcp.@dnsmasq[0].cachesize='0'
 		uci commit dhcp
 	fi
 }
@@ -719,17 +719,28 @@ gen_dns(){
 	fi
 	smartdns_flag=1
 	mkdir -p /tmp/dnsmasq.d $SDNS $DNS_DIR
+	cache_size=$(uci_get_by_type global cache_size)
+	cache_persist=$(uci_get_by_type global cache_persist)
+	prefetch_domain=$(uci_get_by_type global prefetch_domain)
+	serve_expired=$(uci_get_by_type global serve_expired)
+	serve_expired_ttl=$(uci_get_by_type global serve_expired_ttl)
+	serve_expired_reply_ttl=$(uci_get_by_type global serve_expired_reply_ttl)
 	cat >$DNS_T <<-EOF
 		force-AAAA-SOA yes
-		speed-check-mode none
-		dualstack-ip-selection yes
-		cache-size 0
-		cache-persist no
+		speed-check-mode tcp:443
+		dualstack-ip-selection no
+		cache-persist $cache_persist
+		cache-size $cache_size
+		prefetch-domain $prefetch_domain
+		serve-expired $serve_expired
+		serve-expired-ttl $serve_expired_ttl
+		serve-expired-reply-ttl $serve_expired_reply_ttl
+		cache-file /tmp/etc/smartdns/smartdns.cache
 		log-level fatal
 		log-file $LOG
 	EOF
 	echo "bind :5335 -group a" >>$DNS_T
-	echo "bind :5336 -group e -no-rule-soa" >>$DNS_T
+	echo "bind :5336 -group e -no-rule-soa -no-speed-check -no-cache no-dualstack-selection" >>$DNS_T
 	if [ $dns_mode_o = "doh" ];then
 		if [ "$dns_a" = 1 ];then
 			echo "server-https $doh_o_a -group a -exclude-default-group" >>$DNS_T
