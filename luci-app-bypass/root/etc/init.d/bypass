@@ -195,7 +195,7 @@ start_dns(){
 		log "ChinaDNS : Start ChinaDNS-NG successful!"
 	fi
 	if [[ "$(uci get dhcp.@dnsmasq[0].cachesize 2>/dev/null)" == "0" ]]; then
-		uci set dhcp.@dnsmasq[0].cachesize='1500'
+		uci set dhcp.@dnsmasq[0].cachesize='0'
 		uci commit dhcp
 	fi
 }
