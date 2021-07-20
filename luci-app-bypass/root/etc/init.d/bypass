@@ -723,13 +723,14 @@ gen_dns(){
 		force-AAAA-SOA yes
 		speed-check-mode none
 		dualstack-ip-selection yes
-		cache-size 0
-		cache-persist no
+		cache-size 512
+		cache-persist yes
+		cache-file /tmp/etc/smartdns/smartdns.cache
 		log-level fatal
 		log-file $LOG
 	EOF
 	echo "bind :5335 -group a" >>$DNS_T
-	echo "bind :5336 -group e -no-rule-soa" >>$DNS_T
+	echo "bind :5336 -group e -no-rule-soa -no-speed-check -no-cache no-dualstack-selection" >>$DNS_T
 	if [ $dns_mode_o = "doh" ];then
 		if [ "$dns_a" = 1 ];then
 			echo "server-https $doh_o_a -group a -exclude-default-group" >>$DNS_T
