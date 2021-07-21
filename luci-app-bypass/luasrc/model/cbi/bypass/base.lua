@@ -125,4 +125,8 @@ o.default="isp"
 o:depends("dns_mode_d","udp")
 m:section(SimpleSection).template = 'bypass/status_bottom'
 
+o=s:option(Value,"cache-size",translate("cache-size"))
+o.datatype = "uinteger"
+o.default="512"
+
 return m
