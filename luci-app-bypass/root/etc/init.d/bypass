@@ -723,8 +723,8 @@ gen_dns(){
 		force-AAAA-SOA yes
 		speed-check-mode none
 		dualstack-ip-selection yes
-		cache-size 512
 		cache-persist yes
+		cache-size $cache-size
 		cache-file /tmp/etc/smartdns/smartdns.cache
 		log-level fatal
 		log-file $LOG
