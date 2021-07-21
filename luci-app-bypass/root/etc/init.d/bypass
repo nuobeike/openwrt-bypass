@@ -719,12 +719,22 @@ gen_dns(){
 	fi
 	smartdns_flag=1
 	mkdir -p /tmp/dnsmasq.d $SDNS $DNS_DIR
+	cache_size=$(uci_get_by_type global cache_size)
+	cache_persist=$(uci_get_by_type global cache_persist)
+	prefetch_domain=$(uci_get_by_type global prefetch_domain)
+	serve_expired=$(uci_get_by_type global serve_expired)
+	serve_expired_ttl=$(uci_get_by_type global serve_expired_ttl)
+	serve_expired_reply_ttl=$(uci_get_by_type global serve_expired_reply_ttl)
 	cat >$DNS_T <<-EOF
 		force-AAAA-SOA yes
-		speed-check-mode none
-		dualstack-ip-selection yes
-		cache-persist yes
-		cache-size $cache-size
+		speed-check-mode tcp:443
+		dualstack-ip-selection no
+		cache-persist $cache_persist
+		cache-size $cache_size
+		prefetch-domain $prefetch_domain
+		serve-expired $serve_expired
+		serve-expired-ttl $serve_expired_ttl
+		serve-expired-reply-ttl $serve_expired_reply_ttl
 		cache-file /tmp/etc/smartdns/smartdns.cache
 		log-level fatal
 		log-file $LOG

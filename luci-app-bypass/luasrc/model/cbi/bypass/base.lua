@@ -125,8 +125,33 @@ o.default="isp"
 o:depends("dns_mode_d","udp")
 m:section(SimpleSection).template = 'bypass/status_bottom'
 
-o=s:option(Value,"cache-size",translate("cache-size"))
+o=s:option(ListValue,"cache_persist",translate("cache_persist"))
+o:value("yes",translate("yes"))
+o:value("no",translate("no"))
+o.default="no"
+
+o=s:option(Value,"cache_size",translate("Cache size"))
 o.datatype = "uinteger"
 o.default="512"
+
+o=s:option(ListValue,"prefetch_domain",translate("prefetch-domain"))
+o:value("yes",translate("yes"))
+o:value("no",translate("no"))
+o.default="no"
+
+
+o=s:option(ListValue,"serve_expired",translate("serve-expired"))
+o:value("yes",translate("yes"))
+o:value("no",translate("no"))
+o.default="no"
+
+
+o=s:option(Value,"serve_expired_ttl",translate("serve-expired-ttl"))
+o.datatype = "uinteger"
+o.default="86400"
+
+o=s:option(Value,"serve_expired_reply_ttl",translate("serve-expired-reply-ttl"))
+o.datatype = "uinteger"
+o.default="5"
 
 return m
