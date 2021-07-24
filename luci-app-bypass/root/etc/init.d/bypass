@@ -719,6 +719,7 @@ gen_dns(){
 	fi
 	smartdns_flag=1
 	mkdir -p /tmp/dnsmasq.d $SDNS $DNS_DIR
+	smartdns_log=$(uci_get_by_type global smartdns_log)
 	cache_size=$(uci_get_by_type global cache_size)
 	cache_persist=$(uci_get_by_type global cache_persist)
 	prefetch_domain=$(uci_get_by_type global prefetch_domain)
@@ -736,7 +737,7 @@ gen_dns(){
 		serve-expired-ttl $serve_expired_ttl
 		serve-expired-reply-ttl $serve_expired_reply_ttl
 		cache-file /tmp/etc/smartdns/smartdns.cache
-		log-level fatal
+		log-level $smartdns_log
 		log-file $LOG
 	EOF
 	echo "bind :5335 -group a" >>$DNS_T

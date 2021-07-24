@@ -79,6 +79,15 @@ o=s:option(ListValue,"dports",translate("Proxy Ports"))
 o:value("1",translate("All Ports"))
 o:value("2",translate("Only Common Ports"))
 
+o=s:option(ListValue,"smartdns_log",translate("Smartdns Log Level"))
+o:value("fatal")
+o:value("error")
+o:value("warn")
+o:value("notice")
+o:value("info")
+o:value("debug")
+o.default="error"
+
 o=s:option(ListValue,"dns_mode_o",translate("Foreign Resolve Dns Mode"))
 o:value("doh",translate("Use SmartDNS DoH query"))
 o:value("tcp",translate("Use SmartDNS TCP query"))
